@@ -1,3 +1,0 @@
-I've been living here for 2000 years already...... 
-
-Longer than anyone else.

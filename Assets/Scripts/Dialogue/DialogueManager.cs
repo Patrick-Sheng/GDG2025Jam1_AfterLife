@@ -6,13 +6,13 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Net.NetworkInformation;
-using System.Linq;
+
 
 
 
 public class DialogueManager : MonoBehaviour
 {
+    private bool switch1;
 
     public AudioSource typing;
 
@@ -68,6 +68,8 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("Found more than one DIalogue Manager in the scene");
         }
         instance = this;
+
+        layoutAnimator = dialoguePanel.GetComponent<Animator>();
     }
 
     public static DialogueManager GetInstance()
@@ -80,7 +82,7 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
 
-        layoutAnimator = dialoguePanel.GetComponent<Animator>();
+        //layoutAnimator = dialoguePanel.GetComponent<Animator>();
 
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
@@ -131,13 +133,8 @@ public class DialogueManager : MonoBehaviour
     public void EnterAtKnot(TextAsset inkJSON, string knotName)
     {
         currentStory = new Story(inkJSON.text);
-        currentStory.BindExternalFunction("canlickcone",() => StaticManager.CanLick);
-        currentStory.BindExternalFunction("Licked6times", () => StaticManager.licked6times);
-        currentStory.BindExternalFunction("canbuypancake", () => StaticManager.canbuypancake);
-        currentStory.BindExternalFunction("boughtpancake", () => StaticManager.hasPancake);
-        currentStory.BindExternalFunction("hasmoney", () => StaticManager.hasmoney);
         currentStory.BindExternalFunction("moneynumber", () => StaticManager.NumDollars);
-
+        
 
         currentStory.ChoosePathString(knotName);
 
@@ -160,11 +157,6 @@ public class DialogueManager : MonoBehaviour
 
         //PUT VARAIBLE CHECKS HERE
         currentStory = new Story(inkJSON.text);
-        currentStory.BindExternalFunction("canlickcone",() => StaticManager.CanLick);
-        currentStory.BindExternalFunction("Licked6times", () => StaticManager.licked6times);
-        currentStory.BindExternalFunction("canbuypancake", () => StaticManager.canbuypancake);
-        currentStory.BindExternalFunction("boughtpancake", () => StaticManager.hasPancake);
-        currentStory.BindExternalFunction("hasmoney", () => StaticManager.hasmoney);
         currentStory.BindExternalFunction("moneynumber", () => StaticManager.NumDollars);
 
 
@@ -218,10 +210,10 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Coroutine started!");
 
-        // Wait for 0.5 seconds
+        
         yield return new WaitForSeconds(0.2f);
         StaticManager.resettrigger = false;
-        Debug.Log("Coroutine ended after 0.5 seconds!");
+        
     }
     public void ContinueStory()
     {
@@ -243,7 +235,7 @@ public class DialogueManager : MonoBehaviour
             //dialogueText.text = nextLine;
 
             
-
+            // removed
             StartCoroutine(RefreshUI());
 
             
@@ -285,8 +277,10 @@ public class DialogueManager : MonoBehaviour
 
 
         canContinueToNextLine = false;
+        if (currentStory.currentTags.Count > 0)
+            HandleTags(currentStory.currentTags);
 
-        foreach(char letter in line.ToCharArray())
+        foreach (char letter in line.ToCharArray())
         {
 
             // Maybe set a boolean to true when a key is pressed and say if the boolean is true do this shit
@@ -299,21 +293,55 @@ public class DialogueManager : MonoBehaviour
             }
             typing.pitch = Random.Range(0.9f, 1.1f);
             typing.PlayOneShot(typing.clip);
-
+            //dialogueText.ForceMeshUpdate(true);
 
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        if (currentStory.currentTags.Count > 0)
-            HandleTags(currentStory.currentTags);
+
 
         DisplayChoices();
 
         canContinueToNextLine = true;
     }
-         
 
+    private IEnumerator RebuildDialogueLayout()
+    {
+        // 1) wait one frame so the layoutAnimator has actually resized your RectTransforms
+        yield return null;
+
+        // 2) sample your layoutAnimator again (just in case)
+        //    — you can pass your last tagValue in here if you store it, or just replay default then play
+        //    (but we’ll assume your Play(tagValue, 0f) + Update(0f) in HandleTags already ran)
+
+        // 3) toggle every RectMask2D to nuke its cached clip rect
+        var masks = dialoguePanel.GetComponentsInChildren<RectMask2D>(true);
+        foreach (var m in masks) m.enabled = false;
+        Canvas.ForceUpdateCanvases();
+        foreach (var m in masks) m.enabled = true;
+
+        // 4) toggle any LayoutGroup to force it to reflow
+        var layoutGroups = dialoguePanel.GetComponentsInChildren<LayoutGroup>(true);
+        foreach (var lg in layoutGroups)
+        {
+            lg.enabled = false;
+            lg.enabled = true;
+        }
+
+        // 5) toggle the TMP component itself so it dirties its layout
+        dialogueText.enabled = false;
+        dialogueText.enabled = true;
+
+        // 6) now absolutely rebuild everything
+        Canvas.ForceUpdateCanvases();
+        var panelRT = dialoguePanel.GetComponent<RectTransform>();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(panelRT);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(dialogueText.rectTransform);
+
+        // 7) and finally force TMP to regenerate & wrap its mesh
+        dialogueText.ForceMeshUpdate();
+    }
     private void HideChoices()
     {
         foreach (GameObject choiceButton in choices)
@@ -338,83 +366,64 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log("niceTag has passed!");
                 continue; // Skip to next tag
             }
-            if (tag.Trim() == "canlick")
+
+            if (tag.Trim() == "Example of tag")
             {
-                StaticManager.CanLick = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "MomComeInside")
+            {
+                StaticManager.MomComeInside = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "TakeBlanket")
+            {
+                StaticManager.TakeBlanket = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "ThrowBlanket")
+            {
+                StaticManager.ThrowBlanket = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "MumLeaveJonahRoom")
+            {
+                StaticManager.MumLeaveJonahRoom = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "EatCereal")
+            {
+                StaticManager.EatCereal = true;
+                // DO CODE HERE
+                continue; // Skip to next tag
+            }
+            if (tag.Trim() == "familytalk1Done")
+            {
+                StaticManager.familytalk1Done = true;
                 continue;
             }
-            if (tag.Trim() == "licked")
+            if (tag.Trim() == "familytalk2Done")
             {
-                StaticManager.licked++;
+                StaticManager.familytalk2Done = true;
                 continue;
             }
-            if (tag.Trim() == "plus1dollar")
+            if (tag.Trim() == "momGrabsyou")
             {
-                StaticManager.Plus1Dollar = true;
+                StaticManager.momGrabsyou = true;
                 continue;
             }
-            if (tag.Trim() == "plus1pancake")
+            if (tag.Trim() == "LayDownJonah")
             {
-                StaticManager.Plus1Pancake = true;
-                continue;
-            }
-            if (tag.Trim() == "stealpancakes")
-            {
-                StaticManager.stealpancakes = true;
-                continue;
-            }
-            if (tag.Trim() == "stealmoney")
-            {
-                StaticManager.stealmoney = true;
-                continue;
-            }
-            if (tag.Trim() == "runaway")
-            {
-                StaticManager.runaway = true;
-                Debug.Log("runawaynow");
-                continue;
-            }
-            if (tag.Trim() == "laydown")
-            {
-                StaticManager.layDown = true;
-                Debug.Log("runawaynow");
-                continue;
-            }
-            if (tag.Trim() == "justpancakerun")
-            {
-                StaticManager.justpancakerun = true;
-                Debug.Log("runawaynow");
-                continue;
-            }
-            if (tag.Trim() == "StartFlowerGame")
-            {
-                StaticManager.flowerGameStart = true;
-                continue;
-            }
-            if (tag.Trim() == "StartBirdGame")
-            {
-                StaticManager.birdGameStart = true;
-                continue;
-            }
-            if (tag.Trim() == "deleteKey")
-            {
-                StaticManager.birdwon = false;
-                continue;
-            }
-            if (tag.Trim() == "GodDiolgueEnd")
-            {
-                StaticManager.godDiologueEnd = true;
-                Debug.Log("runawaynow");
-                continue;
-            }
-            if (tag.Trim() == "PlayWordle")
-            {
-                StaticManager.enterWordle = true;
-                Debug.Log("runawaynow");
+                StaticManager.LayDownJonah = true;
                 continue;
             }
 
-
+            
             string[] splitTag = tag.Split(":");
             if (splitTag.Length != 2)
             {
@@ -433,8 +442,16 @@ public class DialogueManager : MonoBehaviour
                 case PORTRAIT_TAG:
                     portraitAnimator.Play(tagValue);
                     break;
+                //case LAYOUT_TAG:
+                //    layoutAnimator.Play(tagValue);
+                //    break;
                 case LAYOUT_TAG:
-                    layoutAnimator.Play(tagValue);
+                    // 1) jump the animator to the first frame of the new layout clip
+                    layoutAnimator.Play(tagValue, -1, 0f);
+                    layoutAnimator.Update(0f);
+
+                    // 2) kick off a tiny coroutine that waits one frame, then rebuilds everything
+                    StartCoroutine(RebuildDialogueLayout());
                     break;
                 default:
                     Debug.LogWarning("Tag came but isnt being handled" + tag);
