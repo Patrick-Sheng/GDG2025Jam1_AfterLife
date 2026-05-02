@@ -56,10 +56,13 @@ public class PlayerController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context) 
     {
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c
         if (!DialogueManager.GetInstance().dialogueIsPlaying)
         {
             input = context.ReadValue<Vector2>() * moveSpeed;

@@ -283,6 +283,10 @@ public class DialogueManager : MonoBehaviour
             }
             typing.pitch = Random.Range(0.9f, 1.1f);
             typing.PlayOneShot(typing.clip);
+<<<<<<< HEAD
+=======
+            //dialogueText.ForceMeshUpdate(true);
+>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c
 
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);

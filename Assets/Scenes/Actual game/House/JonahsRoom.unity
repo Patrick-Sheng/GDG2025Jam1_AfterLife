@@ -11426,13 +11426,29 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741011130}
+<<<<<<< HEAD
   m_Enabled: 1
+=======
+<<<<<<<< HEAD:Assets/Scenes/Actual game/House/JonahsRoom 1.unity
+  m_Enabled: 1
+========
+  m_Enabled: 0
+>>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c:Assets/Scenes/Actual game/House/JonahsRoom.unity
+>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7a561ae64e62e2e4e9498a05c3ecc769, type: 3}
   m_Resource: {fileID: 8300000, guid: 7a561ae64e62e2e4e9498a05c3ecc769, type: 3}
   m_PlayOnAwake: 0
+<<<<<<< HEAD
   m_Volume: 0.5
+=======
+<<<<<<<< HEAD:Assets/Scenes/Actual game/House/JonahsRoom 1.unity
+  m_Volume: 0.5
+========
+  m_Volume: 0
+>>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c:Assets/Scenes/Actual game/House/JonahsRoom.unity
+>>>>>>> 8f8a6473ce294b9c7f461d810ec7a2b4977d803c
   m_Pitch: 1
   Loop: 1
   Mute: 0
