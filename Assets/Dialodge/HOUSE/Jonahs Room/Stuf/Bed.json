@@ -1,0 +1,1 @@
+﻿{"inkVersion":21,"root":[["^It's your bed ","#","^layout:default","/#","\n","^Lay Down?","\n","ev","str","^Yes","/str","/ev",{"*":"0.c-0","flg":4},"ev","str","^No","/str","/ev",{"*":"0.c-1","flg":4},{"c-0":["\n","#","^LayDownJonah","/#","end",{"->":"0.g-0"},{"#f":5}],"c-1":["\n","end",{"->":"0.g-0"},{"#f":5}],"g-0":["done",{"#f":5}]}],"done",{"#f":1}],"listDefs":{}}

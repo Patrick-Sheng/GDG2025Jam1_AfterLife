@@ -6,47 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/heavenMain.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/menus/ESC.unity
+    guid: e9958ee0890ac2741ad9b4ddd872dc41
   - enabled: 1
-    path: Assets/Scenes/2.unity
-    guid: bf804ef7306bd5743ad624198cd5f7d5
+    path: Assets/Scenes/Actual game/House/JonahsRoom.unity
+    guid: 142d660b978929d4d870add444c3f7a0
   - enabled: 1
-    path: Assets/Scenes/HeavenGate.unity
-    guid: b112f762f71fcaa4b94e71d5749e0ea8
+    path: Assets/Scenes/Actual game/House/MainRoom.unity
+    guid: bd20bcab9dcb7f64bbe853e0adfc87df
   - enabled: 1
-    path: Assets/Scenes/TestArcade.unity
-    guid: 8250fe430b1d3ee4d8e65a6c74d7998a
+    path: Assets/Scenes/Actual game/House/LuciaRoom.unity
+    guid: cfe6e7aba2d89514f888dacf14e4f18b
   - enabled: 1
-    path: Assets/CINDY/BloomingLight/Scenes/MenuScene_BloomingLight.unity
-    guid: 8dd9140d338ed4abab6a1d2a32a2bf81
+    path: Assets/Scenes/Actual game/House/Bathroom.unity
+    guid: bab1fc29de28de54bab583b29554a097
   - enabled: 1
-    path: Assets/CINDY/BloomingLight/Scenes/MenuScene_Bird.unity
-    guid: 19fdf4d4e0db645ad91e6a0fd31144f9
+    path: Assets/Scenes/Actual game/House/Hallway.unity
+    guid: 590971ce4c3b20b41a73461bd1d8899c
   - enabled: 1
-    path: Assets/CINDY/BloomingLight/Scenes/GameScene_BloomingLight.unity
-    guid: e30647961693743e6a82c8e489d2680b
+    path: Assets/Scenes/menus/EndTemp.unity
+    guid: f20fc2e7a1a2e7144a71624d5c572974
   - enabled: 1
-    path: Assets/CINDY/BloomingLight/Scenes/GameScene_Bird.unity
-    guid: 95378ae82c8de42c0b9c95e4457e6c26
-  - enabled: 1
-    path: Assets/CINDY/Scenes/Yellowyard.unity
-    guid: dd6ec191a0df44edb8293c06400a75c6
-  - enabled: 1
-    path: Assets/CINDY/Scenes/BirdRoom.unity
-    guid: 58f0db191815d4578a160dde7dacdc5f
-  - enabled: 1
-    path: Assets/CINDY/Scenes/Graveyard.unity
-    guid: c828d653fac8440648e8d58bd9926951
-  - enabled: 1
-    path: Assets/Ann/Assets/Tiles/Scenes/Anns Room/DogHallway.unity
-    guid: 3cf438d18a9264744bdb9455fa9063ef
-  - enabled: 1
-    path: Assets/Ann/Assets/Tiles/Scenes/Anns Room/DogRoom.unity
-    guid: a2bdc4352fccfc844996a50f28c54700
-  - enabled: 1
-    path: Assets/Ann/Assets/Tiles/Scenes/Anns Room/WordleRoom.unity
-    guid: 82abd95797197e84584616963afa54a1
+    path: Assets/Scenes/menus/Controls Explain.unity
+    guid: d375d3340cfc58a49babbb7a4f09a2cd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

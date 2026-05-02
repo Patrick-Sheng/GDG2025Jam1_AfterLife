@@ -1,1 +1,0 @@
-Ouch!!! How dare you step on me!!!

@@ -1,0 +1,1 @@
+Theres a photo of you from when you were younger on the fridge

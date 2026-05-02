@@ -1,1 +1,0 @@
-I thought there would be more people like me here
